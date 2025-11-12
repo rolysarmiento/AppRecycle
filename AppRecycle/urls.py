@@ -22,4 +22,5 @@ from Web import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.inicio, name='inicio'),
+    path("analizar/", views.analisis, name='analizar'),
 ]

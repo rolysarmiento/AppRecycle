@@ -24,116 +24,76 @@
 
     <main class="w-full max-w-6xl">
 
-        <!-- <section class="bg-white/10 glass rounded-3xl p-8 shadow-2xl"> -->
+       
+            <!-- <section class="bg-white/10 glass rounded-3xl p-8 shadow-2xl"> -->
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-            <aside class="md:col-span-1 flex flex-col gap-6">
-                <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
-                    <h2 class="text-white font-semibold">Estado de la cama</h2>
-                    <p id="estadoCama" class="mt-2 text-white/80">Libre</p>
-                </div>
-                <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
-                    <h3 class="text-white font-medium mb-2">Controles</h3>
-                    <div class="flex flex-col gap-3">
-                        <button id="btnOcupar"
-                            class="w-full py-2 rounded-xl bg-[var(--facebook-blue)] text-white font-semibold hover:scale-102 transition">Marcar
-                            como ocupado</button>
-                        <button id="btnLiberar"
-                            class="w-full py-2 rounded-xl bg-[var(--alert-red)] text-white font-semibold hover:scale-102 transition">Marcar
-                            como libre</button>
-                        <button id="btnAjustar"
-                            class="w-full py-2 rounded-xl bg-slate-700 text-white hover:scale-102 transition">Ajustar
-                            cabecera</button>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <aside class="md:col-span-1 flex flex-col gap-6">
+                    <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
+                        <h2 class="text-white font-semibold">Resultados :</h2>
+                        <div id="resultado" class="mt-2 text-white/80"></div>
                     </div>
-                </div>
-                <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
-                    <h3 class="text-white font-medium mb-2">Información</h3>
-                    <ul class="text-white/70 text-sm space-y-2">
-                        <li>📏 Dimensiones: 200 x 90 cm</li>
-                        <li>🛌 Tipo: King single</li>
-                        <li>⚡ Estado luz: <span id="estadoLuz">Apagada</span></li>
-                    </ul>
-                </div>
-            </aside>
-
-            <div class="md:col-span-2 flex flex-col items-center gap-4">
-                <div class="relative w-full max-w-4xl p-8 rounded-3xl bg-white/5 glass border border-white/10 shadow-lg">
-                    <video id="videoCam" autoplay playsinline class="w-full flex justify-center">                       
-                    </video>
-                    <div class="flex items-center justify-between px-4 py-4">
-                        <div>
-                            <h2 class="text-white text-2xl font-bold">Cama central</h2>
+                    <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
+                        <h3 class="text-white font-medium mb-2">Controles</h3>
+                        <div class="flex flex-col gap-3">
+                            <button id="btnOcupar"
+                                class="w-full py-2 rounded-xl bg-[var(--facebook-blue)] text-white font-semibold hover:scale-102 transition">Marcar
+                                como ocupado</button>
+                            <button id="btnLiberar"
+                                class="w-full py-2 rounded-xl bg-[var(--alert-red)] text-white font-semibold hover:scale-102 transition">Marcar
+                                como libre</button>
+                            <button id="btnAjustar"
+                                class="w-full py-2 rounded-xl bg-slate-700 text-white hover:scale-102 transition">Ajustar
+                                cabecera</button>
                         </div>
-                        <div class="flex gap-3">
-                            <button id="btnCamara"
-                                class="py-2 px-4 rounded-full bg-[var(--facebook-blue)] text-white shadow hover:scale-105 transition">Activar Camara</button>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
+                        <h3 class="text-white font-medium mb-2">Información</h3>
+                        <ul class="text-white/70 text-sm space-y-2">
+                            <li>📏 Dimensiones: 200 x 90 cm</li>
+                            <li>🛌 Tipo: King single</li>
+                            <li>⚡ Estado luz: <span id="estadoLuz">Apagada</span></li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <div class="md:col-span-2 flex flex-col items-center gap-4">
+                    <div
+                        class="relative w-full max-w-4xl p-8 rounded-3xl bg-white/5 glass border border-white/10 shadow-lg">
+                        <video id="videoCam" autoplay playsinline class="w-full flex justify-center">
+                        </video>
+                        <div class="flex items-center justify-between px-4 py-4">
+                            <div>
+                                <h2 class="text-white text-2xl font-bold">Cama central</h2>
+                            </div>
+                            <div class="flex gap-3">
+                                <button id="btnCamara" onclick="activar_camara()"
+                                    class="py-2 px-4 rounded-full bg-[var(--facebook-blue)] text-white shadow hover:scale-105 transition">Activar
+                                    Camara</button>
+                            </div>
+                            <div class="flex gap-3">
+                                <button id="btnCamara" onclick="enviar_analizar()"
+                                    class="py-2 px-4 rounded-full bg-[var(--facebook-blue)] text-white shadow hover:scale-105 transition">Activar
+                                    Analizar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- </section> -->
-
+            <!-- </section> -->
 
 
     </main>
 
-    <script>
-        let ocupado = false;
-        let luzEncendida = false;
-
-        const estadoCama = document.getElementById('estadoCama');
-        const estadoLuz = document.getElementById('estadoLuz');
-        const indicadorLuz = document.getElementById('indicadorLuz');
-        const cobija = document.getElementById('cobija');
-
-        document.getElementById('btnOcupar').addEventListener('click', () => setOcupado(true));
-        document.getElementById('btnLiberar').addEventListener('click', () => setOcupado(false));
-        document.getElementById('btnAjustar').addEventListener('click', ajustarCabecera);
-        document.getElementById('toggleLight').addEventListener('click', toggleLuz);
-        document.getElementById('animate').addEventListener('click', animacionCama);
-
-        function setOcupado(v) {
-            ocupado = v;
-            estadoCama.textContent = ocupado ? 'Ocupado' : 'Libre';
-            cobija.style.fill = ocupado ? 'var(--alert-red)' : 'var(--facebook-blue)';
-            cobija.style.transition = 'fill 0.4s ease';
-        }
-
-        function toggleLuz() {
-            luzEncendida = !luzEncendida;
-            estadoLuz.textContent = luzEncendida ? 'Encendida' : 'Apagada';
-            indicadorLuz.setAttribute('fill', luzEncendida ? '#facc15' : '#ffffff');
-            indicadorLuz.setAttribute('fill-opacity', luzEncendida ? '1' : '0.1');
-        }
-
-        function ajustarCabecera() {
-            const almohada = document.querySelector('svg rect[x="60"][y="50"]');
-            almohada.animate([
-                { transform: 'translateY(0px)' },
-                { transform: 'translateY(-12px)' },
-                { transform: 'translateY(0px)' }
-            ], { duration: 600, iterations: 1, easing: 'ease-out' });
-        }
-
-        function animacionCama() {
-            const el = document.getElementById('svgCama');
-            el.animate([
-                { transform: 'scale(1)' },
-                { transform: 'scale(1.02)' },
-                { transform: 'scale(1)' }
-            ], { duration: 500, iterations: 1, easing: 'ease-in-out' });
-        }
-
-        setOcupado(false);
-    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
         const btnCamara = document.getElementById('btnCamara');
         const video = document.getElementById('videoCam');
 
-        btnCamara.addEventListener('click', async () => {
+        async function activar_camara() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
                 video.srcObject = stream;
@@ -144,7 +104,26 @@
                 alert("No se pudo acceder a la cámara. Permisos denegados o no disponible.");
                 console.error(err);
             }
-        });
+        }
+
+        function enviar_analizar() {
+            // var token = document.querySelector('[name="csrfmiddlewaretoken"]').value;
+            // var data = {
+            //     'csrfmiddlewaretoken': token
+            // }
+            $.ajax({
+                url: '/analizar/',
+                method: 'GET',
+                //data: data,
+                success: function (data) {
+                    $('#resultado').text(data);
+                    console.log(data);
+                },
+                error: function () {
+                    alert('Error al obtener los datos');
+                }
+            });
+        }
     </script>
 
 
