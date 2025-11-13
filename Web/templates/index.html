@@ -24,42 +24,47 @@
 
     <main class="w-full max-w-6xl">
 
-       
-            <!-- <section class="bg-white/10 glass rounded-3xl p-8 shadow-2xl"> -->
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                <aside class="md:col-span-1 flex flex-col gap-6">
-                    <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
-                        <h2 class="text-white font-semibold">Resultados :</h2>
-                        <div id="resultado" class="mt-2 text-white/80"></div>
-                    </div>
-                    <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
-                        <h3 class="text-white font-medium mb-2">Controles</h3>
-                        <div class="flex flex-col gap-3">
-                            <button id="btnOcupar"
-                                class="w-full py-2 rounded-xl bg-[var(--facebook-blue)] text-white font-semibold hover:scale-102 transition">Marcar
-                                como ocupado</button>
-                            <button id="btnLiberar"
-                                class="w-full py-2 rounded-xl bg-[var(--alert-red)] text-white font-semibold hover:scale-102 transition">Marcar
-                                como libre</button>
-                            <button id="btnAjustar"
-                                class="w-full py-2 rounded-xl bg-slate-700 text-white hover:scale-102 transition">Ajustar
-                                cabecera</button>
-                        </div>
-                    </div>
-                    <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
-                        <h3 class="text-white font-medium mb-2">Información</h3>
-                        <ul class="text-white/70 text-sm space-y-2">
-                            <li>📏 Dimensiones: 200 x 90 cm</li>
-                            <li>🛌 Tipo: King single</li>
-                            <li>⚡ Estado luz: <span id="estadoLuz">Apagada</span></li>
-                        </ul>
-                    </div>
-                </aside>
+        <!-- <section class="bg-white/10 glass rounded-3xl p-8 shadow-2xl"> -->
 
-                <div class="md:col-span-2 flex flex-col items-center gap-4">
-                    <div
-                        class="relative w-full max-w-4xl p-8 rounded-3xl bg-white/5 glass border border-white/10 shadow-lg">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            <aside class="md:col-span-1 flex flex-col gap-6">
+                <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
+                    <h2 class="text-white font-semibold">Resultados :</h2>
+                    <div id="resultado" class="mt-2 text-white/80"></div>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
+                    <h3 class="text-white font-medium mb-2">Controles</h3>
+                    <div class="flex flex-col gap-3">
+                        <button id="btnOcupar"
+                            class="w-full py-2 rounded-xl bg-[var(--facebook-blue)] text-white font-semibold hover:scale-102 transition">Marcar
+                            como ocupado</button>
+                        <button id="btnLiberar"
+                            class="w-full py-2 rounded-xl bg-[var(--alert-red)] text-white font-semibold hover:scale-102 transition">Marcar
+                            como libre</button>
+                        <button id="btnAjustar"
+                            class="w-full py-2 rounded-xl bg-slate-700 text-white hover:scale-102 transition">Ajustar
+                            cabecera</button>
+                    </div>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
+                    <h3 class="text-white font-medium mb-2">Información</h3>
+                    <ul class="text-white/70 text-sm space-y-2">
+                        <li>📏 Dimensiones: 200 x 90 cm</li>
+                        <li>🛌 Tipo: King single</li>
+                        <li>⚡ Estado luz: <span id="estadoLuz">Apagada</span></li>
+                    </ul>
+                </div>
+            </aside>
+
+
+
+            <div class="md:col-span-2 flex flex-col items-center gap-4">
+                <div
+                    class="relative w-full max-w-4xl p-8 rounded-3xl bg-white/5 glass border border-white/10 shadow-lg">
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <video id="videoCam" autoplay playsinline class="w-full flex justify-center">
                         </video>
                         <div class="flex items-center justify-between px-4 py-4">
@@ -67,26 +72,32 @@
                                 <h2 class="text-white text-2xl font-bold">Cama central</h2>
                             </div>
                             <div class="flex gap-3">
-                                <button id="btnCamara" onclick="activar_camara()"
-                                    class="py-2 px-4 rounded-full bg-[var(--facebook-blue)] text-white shadow hover:scale-105 transition">Activar
-                                    Camara</button>
+                                <button type="button" id="btnCamara" onclick="activar_camara()"
+                                    class="py-2 px-4 rounded-full bg-[var(--facebook-blue)] text-white shadow hover:scale-105 transition">
+                                    Activar Camara
+                                </button>
                             </div>
                             <div class="flex gap-3">
-                                <button id="btnCamara" onclick="enviar_analizar()"
+                                <button type="button" id="btnAnalizar" onclick="enviar_analizar()"
                                     class="py-2 px-4 rounded-full bg-[var(--facebook-blue)] text-white shadow hover:scale-105 transition">Activar
                                     Analizar</button>
                             </div>
                         </div>
-                    </div>
+                    </form>
+
                 </div>
             </div>
 
-            <!-- </section> -->
+
+
+        </div>
+
+        <!-- </section> -->
 
 
     </main>
 
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
@@ -106,24 +117,46 @@
             }
         }
 
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
         function enviar_analizar() {
-            // var token = document.querySelector('[name="csrfmiddlewaretoken"]').value;
-            // var data = {
-            //     'csrfmiddlewaretoken': token
-            // }
+            const token = getCookie('csrftoken');
+            const video = document.getElementById('videoCam');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imagenBase64 = canvas.toDataURL('image/jpeg');
             $.ajax({
                 url: '/analizar/',
-                method: 'GET',
-                //data: data,
-                success: function (data) {
-                    $('#resultado').text(data);
-                    console.log(data);
+                method: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': token,
+                    'imagen': imagenBase64
                 },
-                error: function () {
-                    alert('Error al obtener los datos');
+                success: function (response) {
+                    $('#resultado').text(response.resultado);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error en la petición:', error);
                 }
             });
         }
+
     </script>
 
 
