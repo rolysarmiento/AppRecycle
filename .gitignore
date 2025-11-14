@@ -1,2 +1,66 @@
 
 
+# === PYTHON ===
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos generados
+*.log
+*.pot
+*.pyc
+*.pyo
+
+# === ENTORNO VIRTUAL ===
+venv/
+env/
+ENV/
+.venv/
+
+# === DJANGO ===
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+static/
+
+# Evitar subir migraciones opcionalmente
+# Si quieres ignorarlas, descomenta:
+# */migrations/*
+# !*/migrations/__init__.py
+
+# === CONFIGURACIONES SENSIBLES ===
+*.env
+.env.*
+.env.local
+settings_local.py
+
+# === EDITORES ===
+# VSCode
+.vscode/
+.history/
+
+# PyCharm
+.idea/
+
+# === PAQUETES ===
+*.egg-info/
+*.egg
+*.eggs/
+dist/
+build/
+
+# === CACHE ===
+pip-wheel-metadata/
+pip-log.txt
+__pypackages__/
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+.mypy_cache/
+.pytest_cache/
+
+# === OS FILES ===
+.DS_Store
+Thumbs.db
