@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Interfaz - Cama (Tailwind)</title>
+    <title>Train Model</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
@@ -17,102 +17,150 @@
             backdrop-filter: blur(8px);
         }
     </style>
+
+    <style>
+        .modelo-radio {
+            display: none;
+        }
+
+        .modelo-label {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform .15s ease-in-out, opacity .2s;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .modelo-label:hover {
+            transform: scale(1.02);
+        }
+
+        .modelo-radio:checked+.modelo-label {
+            opacity: 0.75;
+            border: 2px solid white;
+        }
+
+        .lenet {
+            background-color: #3b82f6;
+        }
+
+        .alexnet {
+            background-color: #10b981;
+        }
+
+        .resnet {
+            background-color: #8b5cf6;
+        }
+
+        .inception {
+            background-color: #f97316;
+        }
+
+        .mobilenet {
+            background-color: #ec4899;
+        }
+
+        .efficient {
+            background-color: #0ea5e9;
+        }
+    </style>
 </head>
 
 <body
     class="min-h-screen bg-gradient-to-br from-[var(--facebook-blue)] via-blue-900 to-[var(--alert-red)] text-white flex items-center justify-center p-1">
-
     <main class="w-full max-w-6xl">
-
-
-        <!-- <section class="bg-white/10 glass rounded-3xl p-8 shadow-2xl"> -->
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-            <aside class="md:col-span-1 flex flex-col gap-6">
-                <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
-                    <h2 class="text-white font-semibold">Resultados :</h2>
-                    <div id="resultado" class="mt-2 text-white/80"></div>
-                </div>
-                <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
-                    <h3 class="text-white font-medium mb-2">Controles</h3>
-                    <div class="flex flex-col gap-3">
-                        <button onclick="modelo(1)"
-                            class="w-full py-2 rounded-xl bg-[var(--facebook-blue)] text-white font-semibold hover:scale-102 transition">
-                            Modelo Lenet
-                        </button>
-                        <button onclick="modelo(2)"
-                            class="w-full py-2 rounded-xl bg-[var(--facebook-blue)] text-white font-semibold hover:scale-102 transition">
-                            Modelo Alexnet
-                        </button>
-                        <button onclick="modelo(3)"
-                            class="w-full py-2 rounded-xl bg-[var(--facebook-blue)] text-white font-semibold hover:scale-102 transition">
-                            Modelo Resnet
-                        </button>
-                        <button onclick="modelo(4)"
-                            class="w-full py-2 rounded-xl bg-[var(--facebook-blue)] text-white font-semibold hover:scale-102 transition">
-                            Modelo Inception
-                        </button>
-                        <button onclick="modelo(5)"
-                            class="w-full py-2 rounded-xl bg-[var(--facebook-blue)] text-white font-semibold hover:scale-102 transition">
-                            Modelo Mobilenet
-                        </button>
-                        <button onclick="modelo(6)"
-                            class="w-full py-2 rounded-xl bg-[var(--facebook-blue)] text-white font-semibold hover:scale-102 transition">
-                            Modelo Efficientnet
-                        </button>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <aside class="md:col-span-1 flex flex-col gap-6">
+                    <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
+                        <p>
+                        <h2 class="text-white font-semibold">
+                            Resultado
+                            <label id="modelo" name="modelo">Modelo Alexnet</label>
+                            :
+                        </h2>
+                        </p>
+                        <div id="resultado" class="mt-2 text-white/80"></div>
                     </div>
-                </div>
-                <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
-                    <h3 class="text-white font-medium mb-2">Información</h3>
-                    <ul class="text-white/70 text-sm space-y-2">
-                        <li>📏 Dimensiones: 200 x 90 cm</li>
-                        <li>🛌 Tipo: King single</li>
-                        <li>⚡ Estado luz: <span id="estadoLuz">Apagada</span></li>
-                    </ul>
-                </div>
-            </aside>
+                    <div class="p-4 rounded-2xl bg-white/5 glass border border-white/10">
+                        <h3 class="text-white font-medium mb-2">Controles</h3>
+                        <div class="flex flex-col gap-3">
+                            <div class="w-full">
+                                <input type="radio" id="m1" name="tipoModelo" value="1" class="modelo-radio" checked
+                                    onclick="modelo(1, 'Modelo Lenet')">
+                                <label for="m1" class="modelo-label lenet">Modelo Lenet</label>
 
+                                <input type="radio" id="m2" name="tipoModelo" value="2" class="modelo-radio"
+                                    onclick="modelo(1, 'Modelo Alexnet')" checked>
+                                <label for="m2" class="modelo-label alexnet">Modelo Alexnet</label>
 
+                                <input type="radio" id="m3" name="tipoModelo" value="3" class="modelo-radio"
+                                    onclick="modelo(1, 'Modelo Resnet')">
+                                <label for="m3" class="modelo-label resnet">Modelo Resnet</label>
 
-            <div class="md:col-span-2 flex flex-col items-center gap-4">
-                <div
-                    class="relative w-full max-w-4xl p-8 rounded-3xl bg-white/5 glass border border-white/10 shadow-lg">
+                                <input type="radio" id="m4" name="tipoModelo" value="4" class="modelo-radio"
+                                    onclick="modelo(1, 'Modelo Inception')">
+                                <label for="m4" class="modelo-label inception">Modelo Inception</label>
 
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
+                                <input type="radio" id="m5" name="tipoModelo" value="5" class="modelo-radio"
+                                    onclick="modelo(1, 'Modelo Mobilenet')">
+                                <label for="m5" class="modelo-label mobilenet">Modelo Mobilenet</label>
+
+                                <input type="radio" id="m6" name="tipoModelo" value="6" class="modelo-radio"
+                                    onclick="modelo(1, 'Modelo Efficientnet')">
+                                <label for="m6" class="modelo-label efficient">Modelo Efficientnet</label>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <div class="md:col-span-2 flex flex-col items-center gap-4">
+                    <div
+                        class="relative w-full max-w-4xl p-8 rounded-3xl bg-white/5 glass border border-white/10 shadow-lg">
                         <input type="hidden" id="tipoModelo" name="tipoModelo" value="1" />
                         <video id="videoCam" autoplay playsinline class="w-full flex justify-center">
                         </video>
-                        <div class="flex items-center justify-between px-4 py-4">
-                            <div>
-                                <h2 class="text-white text-2xl font-bold">Cama central</h2>
-                            </div>
-                            <div class="flex gap-3">
+                        <div class="flex items-center justify-between px-4 py-4 bg-gray-800 rounded-lg">
+
+                            <!-- Título -->
+                            <h2 class="text-white text-2xl font-bold">Cama central</h2>
+
+                            <!-- Input de imagen -->
+                            <input type="file" id="img" name="img" accept="image/*" class="text-white" />
+
+
+                        </div>
+                        <BR>
+                        <div class="flex items-center justify-between px-4 py-4 bg-gray-800 rounded-lg">
+
+                            <!-- Botones -->
+                            <div class="flex gap-4">
+
                                 <button type="button" id="btnCamara" onclick="activar_camara()"
                                     class="py-2 px-4 rounded-full bg-[var(--facebook-blue)] text-white shadow hover:scale-105 transition">
-                                    Activar Camara
+                                    Activar Cámara
                                 </button>
-                            </div>
-                            <div class="flex gap-3">
-                                <button type="button" id="btnAnalizar" onclick="enviar_analizar()"
-                                    class="py-2 px-4 rounded-full bg-[var(--facebook-blue)] text-white shadow hover:scale-105 transition">Activar
-                                    Analizar</button>
-                            </div>
-                        </div>
-                    </form>
 
+                                <button type="button" id="btnAnalizar" onclick="enviar_analizar()"
+                                    class="py-2 px-4 rounded-full bg-[var(--facebook-blue)] text-white shadow hover:scale-105 transition">
+                                    Activar Analizar
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
-
-
-
-        </div>
-
-        <!-- </section> -->
-
-
+        </form>
     </main>
-
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -120,12 +168,10 @@
         const btnCamara = document.getElementById('btnCamara');
         const video = document.getElementById('videoCam');
 
-        function modelo(id_modelo) {
-            alert(id_modelo);
+        function modelo(id_modelo, modelo) {
             $('#tipoModelo').val(id_modelo);
+            $('#modelo').text(modelo);
         }
-
-
         async function activar_camara() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
@@ -156,14 +202,39 @@
 
         function enviar_analizar() {
             const token = getCookie('csrftoken');
-            const video = document.getElementById('videoCam');
-            const canvas = document.createElement('canvas');
-            const id_modelo = document.getElementById('tipoModelo').value;
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imagenBase64 = canvas.toDataURL('image/jpeg');
+            let video = document.getElementById('videoCam');
+            const inputFile = document.getElementById('img').files[0];
+            const seleccionado = document.querySelector('input[name="tipoModelo"]:checked');
+            let id_modelo = seleccionado ? seleccionado.value : '';
+            console.log('Modelo seleccionado:', id_modelo);
+
+            if (video && video.srcObject) {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                const imagenBase64 = canvas.toDataURL('image/jpeg');
+
+                enviarPeticion(imagenBase64, id_modelo, token);
+                return;
+            }
+            if (inputFile) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imagenBase64 = e.target.result;
+                    enviarPeticion(imagenBase64, id_modelo, token);
+                };
+                reader.readAsDataURL(inputFile);
+                return;
+            }
+            console.error("No hay videoCam ni archivo seleccionado.");
+            alert("Debes activar la cámara o seleccionar una imagen.");
+        }
+
+        function enviarPeticion(imagenBase64, id_modelo, token) {
             $.ajax({
                 url: '/analizar/',
                 method: 'POST',
@@ -181,9 +252,6 @@
             });
         }
     </script>
-
-
-
 </body>
 
 </html>
