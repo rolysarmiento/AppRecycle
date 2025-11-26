@@ -82,7 +82,7 @@
                         <p>
                         <h2 class="text-white font-semibold">
                             Resultado
-                            <label id="modelo" name="modelo">Modelo Alexnet</label>
+                            <label id="modelo" name="modelo">Modelo Lenet</label>
                             :
                         </h2>
                         </p>
@@ -93,11 +93,11 @@
                         <div class="flex flex-col gap-3">
                             <div class="w-full">
                                 <input type="radio" id="m1" name="tipoModelo" value="1" class="modelo-radio" checked
-                                    onclick="modelo(1, 'Modelo Lenet')">
+                                    onclick="modelo(1, 'Modelo Lenet')" checked>
                                 <label for="m1" class="modelo-label lenet">Modelo Lenet</label>
 
                                 <input type="radio" id="m2" name="tipoModelo" value="2" class="modelo-radio"
-                                    onclick="modelo(1, 'Modelo Alexnet')" checked>
+                                    onclick="modelo(1, 'Modelo Alexnet')">
                                 <label for="m2" class="modelo-label alexnet">Modelo Alexnet</label>
 
                                 <input type="radio" id="m3" name="tipoModelo" value="3" class="modelo-radio"
@@ -205,8 +205,7 @@
             let video = document.getElementById('videoCam');
             const inputFile = document.getElementById('img').files[0];
             const seleccionado = document.querySelector('input[name="tipoModelo"]:checked');
-            let id_modelo = seleccionado ? seleccionado.value : '';
-            console.log('Modelo seleccionado:', id_modelo);
+            let id_modelo = seleccionado ? seleccionado.value : '1';
 
             if (video && video.srcObject) {
                 const canvas = document.createElement('canvas');
@@ -244,7 +243,9 @@
                     'id_modelo': id_modelo,
                 },
                 success: function (response) {
-                    $('#resultado').text(response.resultado);
+                    console.log({response});
+                    //$('#resultado').text(response.resultado+' '+response.reciclable);
+                    $('#resultado').text(response.reciclable);
                 },
                 error: function (xhr, status, error) {
                     console.error('Error en la petición:', error);
